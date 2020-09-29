@@ -5,7 +5,6 @@ namespace Service.Utils
 {
     public static class ConsoleHelper
     {
-        //encode 1 test.txt иришка test_result.txt
         public static void ShowFileSize(string pathToFile)
         {
             var sourceFileSize = new FileInfo(pathToFile).Length;

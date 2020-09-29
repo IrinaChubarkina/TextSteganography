@@ -40,7 +40,6 @@ namespace Service
             {
                 Console.WriteLine(e.Message);
             }
-            
         }
 
         private static void HandleDecodeMode(string method, string sourceFilePath)
