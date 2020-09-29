@@ -33,13 +33,15 @@ namespace Service
             var key = ReplacementService.Decode(targetFilePath);
 
             Console.WriteLine(key);
-            Console.WriteLine(key == wordAsBits);
-            
-            var sourceFileSize = new FileInfo(textPath).Length / 1024;
+
+            ShowFileSize(textPath);
+            ShowFileSize(targetFilePath);
+        }
+
+        private static void ShowFileSize(string pathToFile)
+        {
+            var sourceFileSize = new FileInfo(pathToFile).Length / 1024;
             Console.WriteLine(sourceFileSize + " kb");
-            
-            var targetFileSize = new FileInfo(targetFilePath).Length / 1024;
-            Console.WriteLine(targetFileSize + " kb");
         }
     }
 }

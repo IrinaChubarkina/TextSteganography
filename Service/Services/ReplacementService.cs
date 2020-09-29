@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Service.Utils;
 
 namespace Service.Services
 {
@@ -73,7 +74,7 @@ namespace Service.Services
                 }
             }
 
-            return word;
+            return Helper.DecodeWord(Constants.RussianCharactersToCodes, word);
         }
 
         private static string DecodeCharacter(char character)

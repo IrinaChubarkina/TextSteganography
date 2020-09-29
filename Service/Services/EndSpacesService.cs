@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text;
+using Service.Utils;
 using Service.Validators;
 
 namespace Service.Services
@@ -65,7 +66,7 @@ namespace Service.Services
                     word += "0";
             }
 
-            return word;
+            return Helper.DecodeWord(Constants.RussianCharactersToCodes, word);
         }
     }
 }
