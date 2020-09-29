@@ -66,7 +66,7 @@ namespace Service.Services
                     word += "0";
             }
 
-            return Helper.DecodeWord(Constants.RussianCharactersToCodes, word);
+            return DecodeHelper.DecodeWord(Constants.Constants.RussianCharactersToCodes, word);
         }
     }
 }

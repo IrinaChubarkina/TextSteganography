@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Service
+namespace Service.Constants
 {
     public static class Constants
     {
@@ -52,5 +52,7 @@ namespace Service
         };
         
         public const int CodeWidth = 5;
+        public const string DefaultTargetFilePath = @"../../../TextFiles/result.txt";
+
     }
 }

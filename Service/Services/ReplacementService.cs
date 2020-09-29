@@ -13,7 +13,7 @@ namespace Service.Services
         {
             var source = File.ReadAllText(sourceFilePath, Encoding.UTF8);
             var wordLength = word.Length;
-            var helpCode = Convert.ToString(wordLength, 2).PadLeft(Constants.CodeWidth, '0');
+            var helpCode = Convert.ToString(wordLength, 2).PadLeft(Constants.Constants.CodeWidth, '0');
             var helpCounter = 0;
             var wordCounter = 0;
             
@@ -21,11 +21,11 @@ namespace Service.Services
             foreach (var character in source)
             {
                 //write help word
-                if (Constants.EnglishToRussianCharacters.Keys.Contains(character) && helpCounter < Constants.CodeWidth)
+                if (Constants.Constants.EnglishToRussianCharacters.Keys.Contains(character) && helpCounter < Constants.Constants.CodeWidth)
                 {
                     //replace if 1 (do nothing if 0)
                     var result = helpCode[helpCounter] == '1'
-                        ? Constants.EnglishToRussianCharacters[character]
+                        ? Constants.Constants.EnglishToRussianCharacters[character]
                         : character;
                     streamWriter.Write(result);
                     helpCounter++;
@@ -33,11 +33,11 @@ namespace Service.Services
                 }
                    
                 //write our word
-                if (Constants.EnglishToRussianCharacters.Keys.Contains(character) && wordCounter < bits.Length)
+                if (Constants.Constants.EnglishToRussianCharacters.Keys.Contains(character) && wordCounter < bits.Length)
                 {
                     //replace if 1 (do nothing if 0)
                     var result = bits[wordCounter] == '1'
-                        ? Constants.EnglishToRussianCharacters[character]
+                        ? Constants.Constants.EnglishToRussianCharacters[character]
                         : character;
                     streamWriter.Write(result);
                     wordCounter++;
@@ -58,14 +58,14 @@ namespace Service.Services
 
             foreach (var character in source)
             {
-                if (!Constants.EnglishToRussianCharacters.Keys.Contains(character) &&
-                    !Constants.EnglishToRussianCharacters.Values.Contains(character)) continue;
+                if (!Constants.Constants.EnglishToRussianCharacters.Keys.Contains(character) &&
+                    !Constants.Constants.EnglishToRussianCharacters.Values.Contains(character)) continue;
                 
-                if (helpCounter < Constants.CodeWidth)
+                if (helpCounter < Constants.Constants.CodeWidth)
                 {
                     help += DecodeCharacter(character);
                     helpCounter++;
-                    wordLength = Convert.ToInt32(help, 2) * Constants.CodeWidth;
+                    wordLength = Convert.ToInt32(help, 2) * Constants.Constants.CodeWidth;
                 }
                 else if (wordCounter < wordLength && wordLength != 0)
                 {
@@ -74,7 +74,7 @@ namespace Service.Services
                 }
             }
 
-            return Helper.DecodeWord(Constants.RussianCharactersToCodes, word);
+            return DecodeHelper.DecodeWord(Constants.Constants.RussianCharactersToCodes, word);
         }
 
         private static string DecodeCharacter(char character)

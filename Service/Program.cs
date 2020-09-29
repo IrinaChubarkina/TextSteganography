@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using Service.Services;
+using Service.Utils;
+using Service.Validators;
 
 namespace Service
 {
@@ -8,40 +10,82 @@ namespace Service
     {
         static void Main(string[] args)
         {
-            var textPath = @"../../../../" + args[0];
-            var word = args[1];
-            var wordAsBits = string.Empty;
+            ConsoleValidator.ValidateArgsAndThrow(args);
+            var sourceFilePath = ConsoleHelper.GetSourceFilePath(args);
+            var method = args[1];
 
-            foreach (var character in word)
+            if (args[0] == "encode")
             {
-                wordAsBits += Constants.RussianCharactersToCodes[character];
+                var word = args[3];
+                var wordAsBits = string.Empty;
+                foreach (var character in word)
+                {
+                    wordAsBits += Constants.Constants.RussianCharactersToCodes[character];
+                }
+                var targetFilePath = ConsoleHelper.GetTargetFilePath(args);
+                HandleEncodeMode(method, sourceFilePath, targetFilePath, wordAsBits, word);
             }
-
-            // Console.WriteLine(wordAsBits);
-            // var text = File.ReadAllText(textPath, Encoding.UTF8);
-            
-            
-            var targetFilePath = @"../../../../result.txt";
-
-            // SpecialSymbolsService.Encode(textPath, targetFilePath, wordAsBits);
-            // var key = SpecialSymbolsService.Decode(targetFilePath);
-            
-            // EndSpacesService.Encode(targetFilePath, textPath, wordAsBits);
-            // var key = EndSpacesService.Decode(targetFilePath);
-            
-            ReplacementService.Encode(targetFilePath, textPath, wordAsBits, word);
-            var key = ReplacementService.Decode(targetFilePath);
-
-            Console.WriteLine(key);
-
-            ShowFileSize(textPath);
-            ShowFileSize(targetFilePath);
+            else if (args[0] == "decode")
+            {
+                HandleDecodeMode(method, sourceFilePath);
+            }
         }
 
-        private static void ShowFileSize(string pathToFile)
+        private static void HandleDecodeMode(string method, string sourceFilePath)
         {
-            var sourceFileSize = new FileInfo(pathToFile).Length / 1024;
-            Console.WriteLine(sourceFileSize + " kb");
+            try
+            {
+                string word;
+                switch (method)
+                {
+                    case "1":
+                        word = SpecialSymbolsService.Decode(sourceFilePath);
+                        break;
+                    case "2":
+                        word = EndSpacesService.Decode(sourceFilePath);
+                        break;
+                    case "3":
+                        word = ReplacementService.Decode(sourceFilePath);
+                        break;
+                    default:
+                        throw new ArgumentException("Wrong method");
+                }
+
+                Console.WriteLine("Word: " + word);
+                ConsoleHelper.ShowFileSize(sourceFilePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }   
+        }
+
+        private static void HandleEncodeMode(string method, string sourceFilePath, string targetFilePath, string wordAsBits, string word)
+        {
+            try
+            {
+                switch (method)
+                {
+                    case "1":
+                        SpecialSymbolsService.Encode(sourceFilePath, targetFilePath, wordAsBits);
+                        break;
+                    case "2":
+                        EndSpacesService.Encode(targetFilePath, sourceFilePath, wordAsBits);
+                        break;
+                    case "3":
+                        ReplacementService.Encode(targetFilePath, sourceFilePath, wordAsBits, word);
+                        break;
+                    default:
+                        throw new ArgumentException("Wrong method");
+                }
+                Console.WriteLine("Success");
+                ConsoleHelper.ShowFileSize(sourceFilePath);
+                ConsoleHelper.ShowFileSize(targetFilePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }   
         }
     }
 }
