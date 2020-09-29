@@ -16,7 +16,7 @@ namespace Service
             {
                 throw new ArgumentException("мало строк!");
             }
-            var length = new FileInfo(textPath).Length;
+            // var length = new FileInfo(textPath).Length;
             // Console.WriteLine(length);
             
             using (StreamWriter sw = File.CreateText(path))
