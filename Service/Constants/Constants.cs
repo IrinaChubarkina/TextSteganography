@@ -53,6 +53,6 @@ namespace Service.Constants
         
         public const int CodeWidth = 5;
         public const string DefaultTargetFilePath = @"../../../TextFiles/result.txt";
-
+        public const string PathToTextFolder = @"../../../TextFiles/";
     }
 }
